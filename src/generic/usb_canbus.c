@@ -244,9 +244,9 @@ usbcan_task(void)
 
         // Send any previous echo frames
         if (host_status) {
-            if (UsbCan.usb_send_busy)
+            if (UsbCan.notify_local || UsbCan.usb_send_busy)
                 // Don't send echo frame until other traffic is sent
-                return;
+                break;
             int ret = usb_send_bulk_in(gs, sizeof(*gs));
             if (ret < 0)
                 return;
